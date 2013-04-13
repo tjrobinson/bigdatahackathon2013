@@ -80,9 +80,7 @@ namespace LuceneLoader
 
             for (int i = 0; i < hits.ScoreDocs.Count(); i++)
             {
-                Document mydoc = indexSearcher.Doc(hits.ScoreDocs[i].Doc);
-
-                beers.Add(BeerReviewFromDoc(mydoc));
+                beers.Add(BeerReviewFromDoc(hits.ScoreDocs[i]));
             }
 
             return beers;
