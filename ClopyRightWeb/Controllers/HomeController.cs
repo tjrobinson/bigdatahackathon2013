@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -20,10 +21,15 @@ namespace ClopyRightWeb.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public ActionResult About()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<ActionResult> Index(HomeViewModel model)
         {
-            // Create a New HttpClient object.
             var client = new HttpClient();
 
             var parameters = new NameValueCollection
@@ -39,7 +45,7 @@ namespace ClopyRightWeb.Controllers
             var uriBuilder = new UriBuilder
             {
                 Scheme = "http",
-                Host = "localhost",
+                Host = ConfigurationManager.AppSettings["APIHost"],
                 Port = 8080,
                 Path = "/api/Beer/",
                 Query = ToQueryString(parameters)

@@ -1,4 +1,4 @@
-﻿namespace LuceneLoader
+﻿namespace ClopyRightCore
 {
     public class Beer
     {

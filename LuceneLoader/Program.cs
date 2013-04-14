@@ -6,8 +6,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.SelfHost;
+using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
+using Lucene.Net.Store;
 using Version = Lucene.Net.Util.Version;
 
 namespace LuceneLoader
@@ -52,12 +54,11 @@ namespace LuceneLoader
             int limit = Convert.ToInt32(ConfigurationManager.AppSettings["Limit"]);
             int processed = 0;
 
-            var dir = Lucene.Net.Store.FSDirectory.Open(indexFileLocation);
+            var dir = FSDirectory.Open(indexFileLocation);
 
-            var analyzer = new Lucene.Net.Analysis.Standard.StandardAnalyzer(Version.LUCENE_30);
+            var analyzer = new StandardAnalyzer(Version.LUCENE_30);
 
-            var indexWriter = new
-                IndexWriter(dir, analyzer, IndexWriter.MaxFieldLength.UNLIMITED);
+            var indexWriter = new IndexWriter(dir, analyzer, IndexWriter.MaxFieldLength.UNLIMITED);
 
             var doc = new Document();
 

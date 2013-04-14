@@ -7,6 +7,7 @@
 <div class="container">
 
     <h1>ClopyRight</h1>
+    <img src="~/Content/img/test/counter2.gif" />
     @using (Html.BeginForm())
     {
         <fieldset>
@@ -15,27 +16,28 @@
 
             @Html.EditorFor(model => model.Keyword)
 
-            <br />
-            <label>Appearance</label><input type="text" name="MinAppearance" class="slider" value="@Model.MinAppearance" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="@Model.MinAppearance" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="hide">
+            <br /><br />
+            <label>Appearance</label><input type="text" name="MinAppearance" class="slider" value="@Model.MinAppearance" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="@Model.MinAppearance" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="show">
 
 
-            <br />
-            <label>Aroma</label><input type="text" name="MinAroma" class="slider" value="@Model.MinAroma" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="@Model.MinAroma" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="hide">
+            <br /><br />
+            <label>Aroma</label><input type="text" name="MinAroma" class="slider" value="@Model.MinAroma" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="@Model.MinAroma" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="show">
 
 
-            <br />
-            <label>Palate</label><input type="text" name="MinPalate" class="slider" value="@Model.MinPalate" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="@Model.MinPalate" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="hide">
+            <br /><br />
+            <label>Palate</label><input type="text" name="MinPalate" class="slider" value="@Model.MinPalate" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="@Model.MinPalate" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="show">
 
 
-            <br />
-            <label>Taste</label><input type="text" name="MinTaste" class="slider" value="@Model.MinTaste" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="@Model.MinTaste" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="hide">
+            <br /><br />
+            <label>Taste</label><input type="text" name="MinTaste" class="slider" value="@Model.MinTaste" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="@Model.MinTaste" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="show">
 
 
-            <br />
-            <label>Overall</label><input type="text" name="MinOverall" class="slider" value="@Model.MinOverall" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="@Model.MinOverall" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="hide">
+            <br /><br />
+            <label>Overall</label><input type="text" name="MinOverall" class="slider" value="@Model.MinOverall" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="@Model.MinOverall" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="show">
         </fieldset>
         <br />
-        <button type="submit" class="btn">Submit</button>
+        <button type="submit" class="btn btnPrimary">Submit</button><br />
+        <img src="~/Content/img/test/ie_logo.gif" /><img src="~/Content/img/test/ns_logo.gif" />
     }
 
     @if (Model != null && Model.BeerRecommendations != null && Model.BeerRecommendations.Any())
@@ -57,12 +59,11 @@
                         <td>
                             @Html.DisplayFor(model => recommendation.Beer.BeerName)
                         </td>
-                        <td>
-                           Appearance:&nbsp;@Html.DisplayFor(model => recommendation.Review.ReviewAppearance)<br />
-                           Aroma:&nbsp;@Html.DisplayFor(model => recommendation.Review.ReviewAroma)<br />
-                           Palate:&nbsp;@Html.DisplayFor(model => recommendation.Review.ReviewPalate)<br />
-                           Taste:&nbsp;@Html.DisplayFor(model => recommendation.Review.ReviewTaste)<br />
-                           Overall:&nbsp;@Html.DisplayFor(model => recommendation.Review.ReviewOverall)<br />
+                        <td>Appearance:&nbsp;@Html.DisplayFor(model => recommendation.Review.ReviewAppearance)<br />
+                            Aroma:&nbsp;@Html.DisplayFor(model => recommendation.Review.ReviewAroma)<br />
+                            Palate:&nbsp;@Html.DisplayFor(model => recommendation.Review.ReviewPalate)<br />
+                            Taste:&nbsp;@Html.DisplayFor(model => recommendation.Review.ReviewTaste)<br />
+                            Overall:&nbsp;@Html.DisplayFor(model => recommendation.Review.ReviewOverall)<br />
                         </td>
                         <td>
                             @Html.DisplayFor(model => recommendation.Review.ReviewText)

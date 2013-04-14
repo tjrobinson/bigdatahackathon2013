@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "About";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+
+    <h1>About</h1>
+    <img src="~/Content/img/test/mchammer.gif" /><img src="~/Content/img/test/mchammer.gif" /><img src="~/Content/img/test/mchammer.gif" />
+    <p>
+        We pulled the beer advocate dataset into a Lucene index (this is the only time we need significant processing power), then exposed the contents of the index using ASP.NET Web API. Then a front-end developed in ASP.NET MVC queries the data and presents the results to the user.
+    </p>
+    <h2>Source Code</h2>
+    <ul>
+        <li><a href="http://github.com/tjrobinson/bigdatahackathon2013">http://github.com/tjrobinson/bigdatahackathon2013</a></li>
+    </ul>
+    <h2>API</h2>
+    <ul>
+        <li><a href="http://clopyright2.cloudapp.net:8080/api/Beer/?keyword=ginger">http://clopyright2.cloudapp.net:8080/api/Beer/?keyword=ginger</a></li>
+    </ul>
+    <h2>Technologies</h2>
+    <ul>
+        <li><a href="http://lucenenet.apache.org/">Apache Lucene.Net</a><img src="~/img/test/hot.gif" /></li>
+        <li>Azure Websites</li>
+        <li>Azure Virtual Machine</li>
+        <li>ASP.NET MVC 4</li>
+        <li><a href="http://twitter.github.io/bootstrap/">Twitter Bootstrap</a></li>
+        <li><a href="http://divshot.github.io/geo-bootstrap/">Twitter Bootstrap Geocities Theme</a></li>
+    </ul>
+    <h2>Resources Used</h2>
+    <ul>
+        <li>1 Extra Large VM<img src="~/img/test/heart.gif" /></li>
+        <li>1 Azure Website</li>
+    </ul>
+    <h2>If we had more time :)</h2>
+    <ul>
+        <li>The Lucene index could be stored in Azure Blob Storage, meaning the Virtual Machine is only needed to create it, not to store it for use</li>
+        <li>The Web API is self-hosted in a Console Application, it would be better to move it to the Azure Website instead</li>
+        <li>We would tweak the query algorithm to let you do more complex searches and add machine learning stuff</li>
+    </ul>
+</div>

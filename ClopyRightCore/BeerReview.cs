@@ -1,6 +1,4 @@
-﻿using ClopyRightCore;
-
-namespace LuceneLoader
+﻿namespace ClopyRightCore
 {
     public class BeerReview
     {

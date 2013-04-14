@@ -1,4 +1,7 @@
-﻿using Lucene.Net.Analysis;
+﻿using System;
+using System.Collections;
+using System.Reflection;
+using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
@@ -43,15 +46,42 @@ namespace LuceneLoader
             return beer;
         }
 
+        public static int GetCardinality(BitArray bitArray)
+        {
+            var _bitsSetArray256 = new byte[] { 0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8 };
+            var array = (uint[])bitArray.GetType().GetField("m_array", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(bitArray);
+            int count = 0;
+
+            for (int index = 0; index < array.Length; index++)
+                count += _bitsSetArray256[array[index] & 0xFF] + _bitsSetArray256[(array[index] >> 8) & 0xFF] + _bitsSetArray256[(array[index] >> 16) & 0xFF] + _bitsSetArray256[(array[index] >> 24) & 0xFF];
+
+            return count;
+        }
+
         public BeerReview GetFacets(string searchString)
         {
-            Query query = new QueryParser(Lucene.Net.Util.Version.LUCENE_29, "reviewText", new
+            Query query = new QueryParser(Lucene.Net.Util.Version.LUCENE_30, "reviewText", new
             StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30)).Parse(searchString);
 
             // pass in the reader and the names of the facets that you've created using fields in the documents.
             // the facets are determined
 
-            SimpleFacetedSearch sfs = new SimpleFacetedSearch(indexSearcher.IndexReader, new string[] { "beerName" });
+
+            // first get the BitArray result from the genre query
+            //var genreQuery = new TermQuery(new Term("genre", genre));
+            //var genreQueryFilter = new QueryFilter(genreQuery);
+            //BitArray genreBitArray = genreQueryFilter.Bits(searcher.GetIndexReader());
+
+
+            //Filter filter = new QueryFil
+
+            //Console.WriteLine("There are " + GetCardinality(genreBitArray) + " document with the genre " + genre);
+
+
+
+
+            SimpleFacetedSearch sfs = new SimpleFacetedSearch(indexSearcher.IndexReader, new string[] { "reviewOverall", "reviewAroma" });
+
 
             // then pass in the query into the search like you normally would with a typical search class.
 
@@ -67,28 +97,30 @@ namespace LuceneLoader
             {
                 long hitCountPerGroup = hpg.HitCount;
                 SimpleFacetedSearch.FacetName facetName = hpg.Name;
-
+                for (int i = 0; i < facetName.Length; i++)
+                {
+                    string part = facetName[i];
+                }
                 foreach (Document doc in hpg.Documents)
                 {
-                    string text = doc.GetField("beerName").StringValue;
-
-                    // replace with logging or your desired output writer
+                    string text = doc.GetField("reviewOverall").StringValue;
                     System.Diagnostics.Debug.WriteLine(">>" + facetName + ": " + text);
-
                 }
             }
             return null;
         }
 
-        public IEnumerable<BeerReview> Get(string reviewText, int limit = 10, double minAroma = 0, double minAppearance = 0, double minOverall = 0)
+        public IEnumerable<BeerReview> Get(string reviewText = null, int limit = 10, double minAroma = 0, double minAppearance = 0, double minOverall = 0)
         {
             var query = new BooleanQuery();
             Query reviewTextQuery = new TermQuery(new Term("reviewText", reviewText));
             Query reviewAppearanceQuery = NumericRangeQuery.NewDoubleRange("reviewAppearance", minAppearance, null, minInclusive: true, maxInclusive: true);
             Query reviewAromaQuery = NumericRangeQuery.NewDoubleRange("reviewAroma", minAroma, null, minInclusive: true, maxInclusive: true);
+            Query reviewPalateQuery = NumericRangeQuery.NewDoubleRange("reviewPalate", minAroma, null, minInclusive: true, maxInclusive: true);
+            Query reviewTasteQuery = NumericRangeQuery.NewDoubleRange("reviewTaste", minAroma, null, minInclusive: true, maxInclusive: true);
             Query reviewOverallQuery = NumericRangeQuery.NewDoubleRange("reviewOverall", minOverall, null, minInclusive: true, maxInclusive: true);
 
-            query.Add(reviewTextQuery, Occur.MUST);
+            if (reviewText != null) { query.Add(reviewTextQuery, Occur.MUST); }
             query.Add(reviewAppearanceQuery, Occur.MUST);
             query.Add(reviewAromaQuery, Occur.MUST);
             query.Add(reviewOverallQuery, Occur.MUST);
