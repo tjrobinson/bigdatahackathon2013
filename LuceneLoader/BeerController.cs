@@ -110,20 +110,22 @@ namespace LuceneLoader
             return null;
         }
 
-        public IEnumerable<BeerReview> Get(string reviewText = null, int limit = 10, double minAroma = 0, double minAppearance = 0, double minOverall = 0)
+        public IEnumerable<BeerReview> Get(string reviewText = null, int limit = 10, double minAroma = 0, double minAppearance = 0, double minOverall = 0, double minTaste = 0, double minPalate = 0)
         {
             var query = new BooleanQuery();
             Query reviewTextQuery = new TermQuery(new Term("reviewText", reviewText));
             Query reviewAppearanceQuery = NumericRangeQuery.NewDoubleRange("reviewAppearance", minAppearance, null, minInclusive: true, maxInclusive: true);
             Query reviewAromaQuery = NumericRangeQuery.NewDoubleRange("reviewAroma", minAroma, null, minInclusive: true, maxInclusive: true);
-            Query reviewPalateQuery = NumericRangeQuery.NewDoubleRange("reviewPalate", minAroma, null, minInclusive: true, maxInclusive: true);
-            Query reviewTasteQuery = NumericRangeQuery.NewDoubleRange("reviewTaste", minAroma, null, minInclusive: true, maxInclusive: true);
+            Query reviewPalateQuery = NumericRangeQuery.NewDoubleRange("reviewPalate", minPalate, null, minInclusive: true, maxInclusive: true);
+            Query reviewTasteQuery = NumericRangeQuery.NewDoubleRange("reviewTaste", minTaste, null, minInclusive: true, maxInclusive: true);
             Query reviewOverallQuery = NumericRangeQuery.NewDoubleRange("reviewOverall", minOverall, null, minInclusive: true, maxInclusive: true);
 
             if (reviewText != null) { query.Add(reviewTextQuery, Occur.MUST); }
             query.Add(reviewAppearanceQuery, Occur.MUST);
             query.Add(reviewAromaQuery, Occur.MUST);
             query.Add(reviewOverallQuery, Occur.MUST);
+            query.Add(reviewPalateQuery, Occur.MUST);
+            query.Add(reviewTasteQuery, Occur.MUST);
 
             var hits = indexSearcher.Search(query, limit);
 

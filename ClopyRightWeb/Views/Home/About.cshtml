@@ -10,9 +10,9 @@
 <div class="container">
 
     <h1>About</h1>
-    <img src="~/Content/img/test/mchammer.gif" /><img src="~/Content/img/test/mchammer.gif" /><img src="~/Content/img/test/mchammer.gif" />
+    <img src="~/Content/img/test/mchammer.gif" /> <img src="~/Content/img/test/mchammer.gif" /> <img src="~/Content/img/test/mchammer.gif" /><br />
     <p>
-        We pulled the beer advocate dataset into a Lucene index (this is the only time we need significant processing power), then exposed the contents of the index using ASP.NET Web API. Then a front-end developed in ASP.NET MVC queries the data and presents the results to the user.
+        We pulled the beer advocate dataset into a Lucene index (this is the only time we need significant processing power - it takes less than an hour to create the index), then exposed the contents of the index using ASP.NET Web API so that it could be used from any language. Then a front-end developed in ASP.NET MVC queries the data and presents the results to the user. It's nothing fancy but it shows that big-ish data can be queried very quickly if it's stored the right way.
     </p>
     <h2>Source Code</h2>
     <ul>
@@ -20,11 +20,14 @@
     </ul>
     <h2>API</h2>
     <ul>
-        <li><a href="http://clopyright2.cloudapp.net:8080/api/Beer/?keyword=ginger">http://clopyright2.cloudapp.net:8080/api/Beer/?keyword=ginger</a></li>
+        <li><a href="http://clopyright2.cloudapp.net:8080/api/Beer/?keyword=ginger&minAroma=3.5">http://clopyright2.cloudapp.net:8080/api/Beer/?keyword=ginger&minAroma=3.5</a></li>
     </ul>
     <h2>Technologies</h2>
     <ul>
         <li><a href="http://lucenenet.apache.org/">Apache Lucene.Net</a><img src="~/img/test/hot.gif" /></li>
+        <li>C#</li>
+        <li>Python (for data experiments/analysis)</li>
+        <li>SQL Server (for data experiments/analysis)</li>
         <li>Azure Websites</li>
         <li>Azure Virtual Machine</li>
         <li>ASP.NET MVC 4</li>
@@ -37,9 +40,17 @@
         <li>1 Azure Website</li>
     </ul>
     <h2>If we had more time :)</h2>
+    <p>
+        Although we didn't manage to get anything useful, our original plan was to try to use <a href="http://scikit-learn.github.io/scikit-learn-tutorial/working_with_text_data.html">these techniques for text analysis.</a> We wanted to find the most important text for predicting a good beer. We would use the review scores to find good beers. Then correlate that with the keywords that predict a good beer. Or possibly keywords that correlate to each individual scores higher values. That would allow us to have a series of keywords to pick to identify a users best choice of beer. Unfortunately but we ran out of time, people and knowledge so went with the Lucene based option. 
+    </p>
+    <p>To extend the existing solution we'd love to do the following...</p>
     <ul>
         <li>The Lucene index could be stored in Azure Blob Storage, meaning the Virtual Machine is only needed to create it, not to store it for use</li>
         <li>The Web API is self-hosted in a Console Application, it would be better to move it to the Azure Website instead</li>
         <li>We would tweak the query algorithm to let you do more complex searches and add machine learning stuff</li>
     </ul>
+    <h1>Some charts...</h1>
+    <p>If you're reading this, we didn't upload them in time!</p>
+    <h1>Thanks!</h1>
+    <p>Tom, Andy G, Theo C, Ram, Ola</p>
 </div>
