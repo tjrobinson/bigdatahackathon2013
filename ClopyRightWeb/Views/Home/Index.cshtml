@@ -1,0 +1,83 @@
+﻿@model ClopyRightWeb.Models.HomeViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+
+    <h1>ClopyRight</h1>
+    @using (Html.BeginForm())
+    {
+        <fieldset>
+            <legend>Beer Finder</legend>
+            <label>Keywords</label>
+
+            @Html.EditorFor(model => model.Keyword)
+
+            <br />
+            <label>Appearance</label><input type="text" name="MinAppearance" class="slider" value="@Model.MinAppearance" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="@Model.MinAppearance" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="hide">
+
+
+            <br />
+            <label>Aroma</label><input type="text" name="MinAroma" class="slider" value="@Model.MinAroma" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="@Model.MinAroma" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="hide">
+
+
+            <br />
+            <label>Palate</label><input type="text" name="MinPalate" class="slider" value="@Model.MinPalate" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="@Model.MinPalate" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="hide">
+
+
+            <br />
+            <label>Taste</label><input type="text" name="MinTaste" class="slider" value="@Model.MinTaste" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="@Model.MinTaste" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="hide">
+
+
+            <br />
+            <label>Overall</label><input type="text" name="MinOverall" class="slider" value="@Model.MinOverall" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="@Model.MinOverall" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="hide">
+        </fieldset>
+        <br />
+        <button type="submit" class="btn">Submit</button>
+    }
+
+    @if (Model != null && Model.BeerRecommendations != null && Model.BeerRecommendations.Any())
+    {
+        <table class="table table-striped">
+
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Scores</th>
+                    <th>Review</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var recommendation in Model.BeerRecommendations)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => recommendation.Beer.BeerName)
+                        </td>
+                        <td>
+                           Appearance:&nbsp;@Html.DisplayFor(model => recommendation.Review.ReviewAppearance)<br />
+                           Aroma:&nbsp;@Html.DisplayFor(model => recommendation.Review.ReviewAroma)<br />
+                           Palate:&nbsp;@Html.DisplayFor(model => recommendation.Review.ReviewPalate)<br />
+                           Taste:&nbsp;@Html.DisplayFor(model => recommendation.Review.ReviewTaste)<br />
+                           Overall:&nbsp;@Html.DisplayFor(model => recommendation.Review.ReviewOverall)<br />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => recommendation.Review.ReviewText)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    }
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.slider').slider();
+    });
+</script>

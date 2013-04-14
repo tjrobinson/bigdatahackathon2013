@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuceneLoader", "LuceneLoader\LuceneLoader.csproj", "{D103A4AA-3733-4E76-87CF-A72684F6454F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClopyRightWeb", "ClopyRightWeb\ClopyRightWeb.csproj", "{79453A40-4E5F-4A44-AA83-4580F06C1CC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClopyRightCore", "ClopyRightCore\ClopyRightCore.csproj", "{02D2FF1E-4D16-4F65-BFB2-2380C95F92CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +17,14 @@ Global
 		{D103A4AA-3733-4E76-87CF-A72684F6454F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D103A4AA-3733-4E76-87CF-A72684F6454F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D103A4AA-3733-4E76-87CF-A72684F6454F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79453A40-4E5F-4A44-AA83-4580F06C1CC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79453A40-4E5F-4A44-AA83-4580F06C1CC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79453A40-4E5F-4A44-AA83-4580F06C1CC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79453A40-4E5F-4A44-AA83-4580F06C1CC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02D2FF1E-4D16-4F65-BFB2-2380C95F92CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02D2FF1E-4D16-4F65-BFB2-2380C95F92CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02D2FF1E-4D16-4F65-BFB2-2380C95F92CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02D2FF1E-4D16-4F65-BFB2-2380C95F92CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

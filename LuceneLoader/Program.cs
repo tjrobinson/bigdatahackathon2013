@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -71,63 +72,73 @@ namespace LuceneLoader
 
                     if (!string.IsNullOrEmpty(fieldName))
                     {
-                        switch (fieldName)
+
+                        try
                         {
-                            case "beer/name":
-                                beer.Beer.BeerName = line.Replace(fieldName + ": ", string.Empty);
-                                break;
-                            case "beer/beerId":
-                                beer.Beer.BeerBeerId = line.Replace(fieldName + ": ", string.Empty);
-                                break;
-                            case "beer/brewerId":
-                                beer.Beer.BeerBrewerId = line.Replace(fieldName + ": ", string.Empty);
-                                break;
-                            case "beer/ABV":
-                                beer.Beer.BeerAbv = line.Replace(fieldName + ": ", string.Empty);
-                                break;
-                            case "beer/style":
-                                beer.Beer.BeerStyle = line.Replace(fieldName + ": ", string.Empty);
-                                break;
-                            case "review/appearance":
-                                beer.Review.ReviewAppearance = line.Replace(fieldName + ": ", string.Empty);
-                                break;
-                            case "review/aroma":
-                                beer.Review.ReviewAroma = line.Replace(fieldName + ": ", string.Empty);
-                                break;
-                            case "review/palate":
-                                beer.Review.ReviewPalate = line.Replace(fieldName + ": ", string.Empty);
-                                break;
-                            case "review/taste":
-                                beer.Review.ReviewTaste = line.Replace(fieldName + ": ", string.Empty);
-                                break;
-                            case "review/overall":
-                                beer.Review.ReviewOverall = line.Replace(fieldName + ": ", string.Empty);
-                                break;
-                            case "review/time":
-                                beer.Review.ReviewTime = line.Replace(fieldName + ": ", string.Empty);
-                                break;
-                            case "review/profileName":
-                                beer.Review.ReviewProfileName = line.Replace(fieldName + ": ", string.Empty);
-                                break;
-                            case "review/text":
-                                beer.Review.ReviewText = line.Replace(fieldName + ": ", string.Empty);
-                                break;
+                            switch (fieldName)
+                            {
+                                case "beer/name":
+                                    beer.Beer.BeerName = line.Replace(fieldName + ": ", string.Empty);
+                                    break;
+                                case "beer/beerId":
+                                    beer.Beer.BeerBeerId = int.Parse(line.Replace(fieldName + ": ", string.Empty));
+                                    break;
+                                case "beer/brewerId":
+                                    beer.Beer.BeerBrewerId = int.Parse(line.Replace(fieldName + ": ", string.Empty));
+                                    break;
+                                case "beer/ABV":
+                                    beer.Beer.BeerAbv = double.Parse(line.Replace(fieldName + ": ", string.Empty));
+                                    break;
+                                case "beer/style":
+                                    beer.Beer.BeerStyle = line.Replace(fieldName + ": ", string.Empty);
+                                    break;
+                                case "review/appearance":
+                                    beer.Review.ReviewAppearance =
+                                    double.Parse(line.Replace(fieldName + ": ", string.Empty));
+                                    break;
+                                case "review/aroma":
+                                    beer.Review.ReviewAroma = double.Parse(line.Replace(fieldName + ": ", string.Empty));
+                                    break;
+                                case "review/palate":
+                                    beer.Review.ReviewPalate = double.Parse(line.Replace(fieldName + ": ", string.Empty));
+                                    break;
+                                case "review/taste":
+                                    beer.Review.ReviewTaste = double.Parse(line.Replace(fieldName + ": ", string.Empty));
+                                    break;
+                                case "review/overall":
+                                    beer.Review.ReviewOverall =
+                                        double.Parse(line.Replace(fieldName + ": ", string.Empty));
+                                    break;
+                                case "review/time":
+                                    beer.Review.ReviewTime = line.Replace(fieldName + ": ", string.Empty);
+                                    break;
+                                case "review/profileName":
+                                    beer.Review.ReviewProfileName = line.Replace(fieldName + ": ", string.Empty);
+                                    break;
+                                case "review/text":
+                                    beer.Review.ReviewText = line.Replace(fieldName + ": ", string.Empty);
+                                    break;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Trace.WriteLine(ex.ToString());
                         }
                     }
                     else
                     {
                         var beerDocument = new Document();
 
-                        beerDocument.Add(new Field("beerName", beer.Beer.BeerName, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
-                        beerDocument.Add(new Field("beerBeerId", beer.Beer.BeerBeerId, Field.Store.YES, Field.Index.NOT_ANALYZED, Field.TermVector.NO));
-                        beerDocument.Add(new Field("beerBrewerId", beer.Beer.BeerBrewerId, Field.Store.YES, Field.Index.NOT_ANALYZED, Field.TermVector.NO));
-                        beerDocument.Add(new Field("beerABV", beer.Beer.BeerAbv, Field.Store.YES, Field.Index.NOT_ANALYZED, Field.TermVector.NO));
+                        beerDocument.Add(new Field("beerName", beer.Beer.BeerName, Field.Store.YES, Field.Index.NOT_ANALYZED, Field.TermVector.YES));
+                        beerDocument.Add(new NumericField("beerBeerId", Field.Store.YES, true).SetIntValue(beer.Beer.BeerBeerId.GetValueOrDefault()));
+                        beerDocument.Add(new NumericField("beerBrewerId", Field.Store.YES, true).SetIntValue(beer.Beer.BeerBrewerId.GetValueOrDefault()));
+                        beerDocument.Add(new NumericField("beerABV", Field.Store.YES, true).SetDoubleValue(beer.Beer.BeerAbv.GetValueOrDefault()));
                         beerDocument.Add(new Field("beerStyle", beer.Beer.BeerStyle, Field.Store.YES, Field.Index.NOT_ANALYZED, Field.TermVector.NO));
-                        beerDocument.Add(new Field("reviewAppearance", beer.Review.ReviewAppearance, Field.Store.YES, Field.Index.NOT_ANALYZED, Field.TermVector.NO));
-                        beerDocument.Add(new Field("reviewAroma", beer.Review.ReviewAroma, Field.Store.YES, Field.Index.NOT_ANALYZED, Field.TermVector.NO));
-                        beerDocument.Add(new Field("reviewPalate", beer.Review.ReviewPalate, Field.Store.YES, Field.Index.NOT_ANALYZED, Field.TermVector.NO));
-                        beerDocument.Add(new Field("reviewTaste", beer.Review.ReviewTaste, Field.Store.YES, Field.Index.NOT_ANALYZED, Field.TermVector.NO));
-                        beerDocument.Add(new Field("reviewOverall", beer.Review.ReviewOverall, Field.Store.YES, Field.Index.NOT_ANALYZED, Field.TermVector.NO));
+                        beerDocument.Add(new NumericField("reviewAppearance", Field.Store.YES, true).SetDoubleValue(beer.Review.ReviewAppearance.GetValueOrDefault()));
+                        beerDocument.Add(new NumericField("reviewAroma", Field.Store.YES, true).SetDoubleValue(beer.Review.ReviewAroma.GetValueOrDefault()));
+                        beerDocument.Add(new NumericField("reviewPalate", Field.Store.YES, true).SetDoubleValue(beer.Review.ReviewPalate.GetValueOrDefault()));
+                        beerDocument.Add(new NumericField("reviewTaste", Field.Store.YES, true).SetDoubleValue(beer.Review.ReviewTaste.GetValueOrDefault()));
+                        beerDocument.Add(new NumericField("reviewOverall", Field.Store.YES, true).SetDoubleValue(beer.Review.ReviewOverall.GetValueOrDefault()));
                         beerDocument.Add(new Field("reviewTime", beer.Review.ReviewTime, Field.Store.YES, Field.Index.NOT_ANALYZED, Field.TermVector.NO));
                         beerDocument.Add(new Field("reviewProfileName", beer.Review.ReviewProfileName, Field.Store.YES, Field.Index.NOT_ANALYZED, Field.TermVector.NO));
                         beerDocument.Add(new Field("reviewText", beer.Review.ReviewText, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));

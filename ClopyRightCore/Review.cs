@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LuceneLoader
+﻿namespace ClopyRightCore
 {
     public class Review
     {
